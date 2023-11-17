@@ -1,7 +1,6 @@
 package andreademasi.services;
 
 import andreademasi.entities.Event;
-import andreademasi.entities.User;
 import andreademasi.exceptions.NotFoundException;
 import andreademasi.payloads.events.NewEventDTO;
 import andreademasi.repositories.EventRepository;
@@ -31,14 +30,14 @@ public class EventService {
     }
 
     public Event saveEvent(NewEventDTO eventDTO) throws IOException {
-        User foundUser = userService.findUserById(eventDTO.userId());
+        //User foundUser = userService.findUserById(eventDTO.userId());
         Event newEvent = new Event();
         newEvent.setTitle(eventDTO.title());
         newEvent.setDescription(eventDTO.description());
         newEvent.setDate(eventDTO.date());
         newEvent.setPlace(eventDTO.place());
         newEvent.setSeats(eventDTO.seats());
-        newEvent.setUser(foundUser);
+        //newEvent.setUser(foundUser);
         return eventRepo.save(newEvent);
     }
 

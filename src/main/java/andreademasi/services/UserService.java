@@ -1,10 +1,12 @@
 package andreademasi.services;
 
+import andreademasi.entities.Event;
 import andreademasi.entities.Role;
 import andreademasi.entities.User;
 import andreademasi.exceptions.BadRequestException;
 import andreademasi.exceptions.NotFoundException;
 import andreademasi.payloads.users.NewUserDTO;
+import andreademasi.repositories.EventRepository;
 import andreademasi.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,9 @@ public class UserService {
     PasswordEncoder bcrypt;
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private EventRepository eventRepo;
 
     public User findUserById(long id) throws NotFoundException {
         return userRepo.findById(id).orElseThrow(() -> new NotFoundException(id));
@@ -63,5 +68,16 @@ public class UserService {
         User foundUser = this.findUserById(id);
         foundUser.setRole(Role.ORGANIZZATORE_EVENTI);
         return userRepo.save(foundUser);
+    }
+
+    public void setEventToUser(long userId, long eventId) {
+        User foundUser = userRepo.findById(userId).orElseThrow(() -> new NotFoundException(userId));
+        Event foundEvent = eventRepo.findById(eventId).orElseThrow(() -> new NotFoundException(eventId));
+
+        if (foundUser != null && foundEvent != null) {
+            foundUser.getEvents().add(foundEvent);
+            userRepo.save(foundUser);
+            System.out.println("Evento con id " + eventId + " e' stato collegato allo user con id " + userId);
+        }
     }
 }

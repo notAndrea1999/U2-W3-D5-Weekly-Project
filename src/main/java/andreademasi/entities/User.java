@@ -36,9 +36,17 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "user")
+//    private Set<Event> eventSet;
+
+    @ManyToMany
     @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private Set<Event> eventSet;
+    @JoinTable(
+            name = "user_event",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id"))
+    private Set<Event> events;
 
 
     @Override

@@ -7,6 +7,7 @@ import andreademasi.services.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/devices")
+@RequestMapping("/events")
 public class EventController {
     @Autowired
     private EventService eventService;
@@ -31,6 +32,7 @@ public class EventController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ORGANIZZATORE_EVENTI')")
     Event save(@RequestBody @Validated NewEventDTO eventDTO, BindingResult validation) {
         if (validation.hasErrors()) {
             throw new BadRequestException(validation.getAllErrors());
@@ -46,6 +48,7 @@ public class EventController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NOT_FOUND)
+    @PreAuthorize("hasAuthority('ORGANIZZATORE_EVENTI')")
     void findEventByIdAndDelete(@PathVariable long id) {
         eventService.findEventByIdAndDelete(id);
     }
