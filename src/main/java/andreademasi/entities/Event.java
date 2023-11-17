@@ -30,6 +30,8 @@ public class Event {
 
     private long seats;
 
+    private String img;
+
     @ManyToMany(mappedBy = "events")
     @JsonIgnore
     private Set<User> participants;
