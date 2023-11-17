@@ -23,6 +23,7 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
+    @PreAuthorize("hasAuthority('ORGANIZZATORE_EVENTI')")
     public User findByIdAndUpdateRole(@PathVariable long id) {
         return userService.findByIdAndUpdateRole(id);
     }
@@ -34,6 +35,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ORGANIZZATORE_EVENTI','USER')")
     User findUserById(@PathVariable long id) {
         return userService.findUserById(id);
     }

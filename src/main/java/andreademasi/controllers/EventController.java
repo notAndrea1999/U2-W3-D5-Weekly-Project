@@ -22,11 +22,13 @@ public class EventController {
     private EventService eventService;
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ORGANIZZATORE_EVENTI','USER')")
     Event findEventById(@PathVariable long id) {
         return eventService.findEventById(id);
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('ORGANIZZATORE_EVENTI','USER')")
     Page<Event> getAllEvents(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "2") int size) {
         return eventService.getAllEvents(page, size);
     }
@@ -55,6 +57,7 @@ public class EventController {
     }
 
     @PostMapping("/upload/{id}")
+    @PreAuthorize("hasAuthority('ORGANIZZATORE_EVENTI')")
     public Event uploadImg(@RequestParam("img") MultipartFile body, @PathVariable long id) throws IOException {
         System.out.println(body.getSize());
         System.out.println(body.getContentType());
