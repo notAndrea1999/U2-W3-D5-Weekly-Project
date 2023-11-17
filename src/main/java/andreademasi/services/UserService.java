@@ -40,24 +40,13 @@ public class UserService {
                     "Lo username " + user.getUsername() + " è già utilizzato!");
         });
         User newUser = new User();
-        newUser.setAvatar("http://ui-avatars.com/api/?name=" + userDTO.firstName() + "+" + userDTO.lastName());
         newUser.setUsername(userDTO.username());
-        newUser.setFirstName(userDTO.firstName());
-        newUser.setLastName(userDTO.lastName());
         newUser.setRole(Role.USER);
-        newUser.setPassword(bcrypt.encode(userDTO.password()));
         newUser.setEmail(userDTO.email());
+        newUser.setPassword(bcrypt.encode(userDTO.password()));
         return userRepo.save(newUser);
     }
 
-    public User findUserByIdAndUpdate(long id, User user) {
-        User foundUser = this.findUserById(id);
-        foundUser.setUsername(user.getUsername());
-        foundUser.setFirstName(user.getFirstName());
-        foundUser.setLastName(user.getLastName());
-        foundUser.setEmail(user.getEmail());
-        return userRepo.save(foundUser);
-    }
 
     public void findUserByIdAndDelete(long id) throws NotFoundException {
         User foundUser = this.findUserById(id);
@@ -72,7 +61,7 @@ public class UserService {
 
     public User findByIdAndUpdateRole(long id) {
         User foundUser = this.findUserById(id);
-        foundUser.setRole(Role.ADMIN);
+        foundUser.setRole(Role.ORGANIZZATORE_EVENTI);
         return userRepo.save(foundUser);
     }
 }

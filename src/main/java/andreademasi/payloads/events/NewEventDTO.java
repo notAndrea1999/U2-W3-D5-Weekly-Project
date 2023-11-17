@@ -17,7 +17,9 @@ public record NewEventDTO(
         String place,
 
         @NotNull(message = "I posti a sedere sono un campo obbligatorio")
-        long seats
+        long seats,
 
+        @NotNull(message = "Lo user id e' obbligatorio")
+        long userId
 ) {
 }

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
@@ -30,12 +31,15 @@ public class User implements UserDetails {
 
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Event> eventSet;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));
     }
-    
+
     @Override
     public boolean isAccountNonExpired() {
         return true;

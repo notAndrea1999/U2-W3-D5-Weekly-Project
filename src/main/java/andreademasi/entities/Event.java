@@ -27,4 +27,8 @@ public class Event {
     private String place;
 
     private long seats;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
